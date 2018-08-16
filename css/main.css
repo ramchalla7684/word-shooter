@@ -1,0 +1,27 @@
+body {
+    overflow: hidden;
+}
+
+main {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+}
+
+#canvas {
+    border-radius: 8px;
+    box-shadow: -0.2px 0.2px 50px 5px rgba(0, 0, 0, 0.5);
+}
+
+.score {
+    white-space: nowrap;
+    align-self: flex-start;
+    margin-top: 80px;
+    margin-left: 25px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
