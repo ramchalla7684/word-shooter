@@ -84,8 +84,8 @@ class Word {
 
         this.isDestroyed = false;
 
-        this.vX = (width / 2 - this.x) / 1000;
-        this.vY = (height / 2 - this.y) / 1000;
+        this.vX = (width / 2 - this.x) / 800;
+        this.vY = (height / 2 - this.y) / 800;
 
         this.setBoundaries();
     }
