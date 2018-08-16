@@ -252,11 +252,11 @@ function setup() {
     canvas.width = width;
     canvas.height = height;
 
-    background.src = '../word-shooter/sprites/background.png';
-    spaceship.src = '../word-shooter/sprites/ship.png';
-    bullet.src = '../word-shooter/sprites/bullet.png';
+    background.src = '/word-shooter/sprites/background.png';
+    spaceship.src = '/word-shooter/sprites/ship.png';
+    bullet.src = '/word-shooter/sprites/bullet.png';
 
-    fetch('../word-shooter/words.txt')
+    fetch('/word-shooter/words.txt')
         .then(response => {
             if (!response.ok) {
 
