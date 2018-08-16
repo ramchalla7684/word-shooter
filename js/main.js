@@ -256,13 +256,19 @@ function setup() {
     spaceship.src = '../word-shooter/sprites/ship.png';
     bullet.src = '../word-shooter/sprites/bullet.png';
 
-    fetch('../words.txt')
-        .then(response => response.text()
-            .then(text => {
-                W = text.split('\n');
-                addWords();
-            })
-        )
+    fetch('../word-shooter/words.txt')
+        .then(response => {
+            if (!response.ok) {
+
+                throw Error(response.statusText);
+            }
+            return response.text()
+                .then(text => {
+                    W = text.split('\n');
+                    addWords();
+                });
+
+        })
         .catch(error => {
             console.log(error);
         });
