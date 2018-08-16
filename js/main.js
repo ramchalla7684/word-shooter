@@ -252,9 +252,9 @@ function setup() {
     canvas.width = width;
     canvas.height = height;
 
-    background.src = '../sprites/background.png';
-    spaceship.src = '../sprites/ship.png';
-    bullet.src = '../sprites/bullet.png';
+    background.src = '../word-shooter/sprites/background.png';
+    spaceship.src = '../word-shooter/sprites/ship.png';
+    bullet.src = '../word-shooter/sprites/bullet.png';
 
     fetch('../words.txt')
         .then(response => response.text()
