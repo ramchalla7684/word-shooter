@@ -4,9 +4,11 @@ document.addEventListener('keydown', (event) => {
     }
     else if (event.key >= 'a' && event.key <= 'z') {
         totalStrikes++;
-        shoot(event.key);
-
         strikes.innerText = totalStrikes;
+        if (!shoot(event.key)) {
+            accuracy.innerText = ((correctStrikes / totalStrikes) * 100).toFixed(1) + '%';
+            misses.innerText = totalStrikes - correctStrikes;
+        }
     }
 });
 
@@ -15,3 +17,6 @@ document.addEventListener('keyup', (event) => {
         currentKey = '';
     }
 });
+
+window.addEventListener('blur', pause);
+window.addEventListener('focus', resume);

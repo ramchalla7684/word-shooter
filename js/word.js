@@ -6,8 +6,8 @@ class Word {
 
         this.isDestroyed = false;
 
-        this.vX = (width / 2 - this.x) / 800;
-        this.vY = (height / 2 - this.y) / 800;
+        this.vX = (width / 2 - this.x) / 900;
+        this.vY = (height / 2 - this.y) / 900;
 
         this.setBoundaries();
     }
@@ -31,15 +31,6 @@ class Word {
         this.x += this.vX * deltaTime;
         this.y += this.vY * deltaTime;
 
-        if (this.text === '') {
-            this.isDestroyed = true;
-
-            if (this === targetWord) {
-                targetWord = undefined;
-            }
-            return;
-        }
-
         let q1 = this.dirX == -1 && this.dirY == 1;
         let q2 = this.dirX == 1 && this.dirY == 1;
         let q3 = this.dirX == 1 && this.dirY == -1;
@@ -51,9 +42,6 @@ class Word {
         outOfBoundary = outOfBoundary || (q4 && this.x < width / 2 + orbitRadius && this.y < height / 2 + orbitRadius);
 
         if (outOfBoundary) {
-            if (this === targetWord) {
-                targetWord = undefined;
-            }
             this.isDestroyed = true;
         }
     }

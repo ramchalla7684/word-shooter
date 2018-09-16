@@ -1,5 +1,5 @@
 let width = 1080;
-let height = width * 9 / 16;
+let height = width * 10 / 16;
 
 let spaceshipSize = 40;
 let bulletSize = 75;
@@ -32,6 +32,8 @@ let targetWord;
 let totalStrikes = 0;
 let correctStrikes = 0;
 
+let isPaused = false;
+
 function drawBullets() {
     for (let i = 0; i < bullets.length;) {
         if (bullets[i].isDestroyed) {
@@ -52,13 +54,17 @@ function drawBullets() {
 function drawWords() {
     for (let i = 0; i < words.length;) {
 
-        words[i].move();
+        if (words[i].text !== '') {
+            words[i].move();
+        }
+
         if (words[i] !== targetWord) {
             words[i].draw();
         }
 
         if (words[i].isDestroyed) {
             words.splice(i, 1);
+            targetWord = undefined;
         }
         else {
             i++;
@@ -73,31 +79,33 @@ function drawWords() {
 function addWords() {
 
     setInterval(() => {
-        for (let i = wStart; i < (wStart + 1) % W.length; i++) {
 
-            let r = Math.random();
-            let x, y;
-            if (r < 0.25) {
-                x = width;
-                y = Math.random() * height;
-            }
-            else if (r <= 0.5) {
-                x = Math.random() * width;
-                y = height;
-            }
-            else if (r <= 0.75) {
-                x = 0;
-                y = Math.random() * height;
-            }
-            else {
-                x = Math.random() * width;
-                y = 0;
-            }
+        if (!isPaused) {
+            for (let i = wStart; i < (wStart + 1) % W.length; i++) {
 
-            words.push(new Word(x, y, W[i]));
+                let r = Math.random();
+                let x, y;
+                if (r < 0.25) {
+                    x = width;
+                    y = Math.random() * height;
+                }
+                else if (r <= 0.5) {
+                    x = Math.random() * width;
+                    y = height;
+                }
+                else if (r <= 0.75) {
+                    x = 0;
+                    y = Math.random() * height;
+                }
+                else {
+                    x = Math.random() * width;
+                    y = 0;
+                }
+
+                words.push(new Word(x, y, W[i]));
+            }
+            wStart = (wStart + 1) % W.length;
         }
-
-        wStart = (wStart + 1) % W.length;
     }, 2000);
 }
 
@@ -113,13 +121,27 @@ function shoot(key) {
 
     if (targetWord) {
         if (targetWord.text[0] === key) {
+            correctStrikes++;
+            targetWord.text = targetWord.text.substring(1, targetWord.length);
             rotation = Math.atan2(targetWord.y - height / 2, targetWord.x - width / 2);
-            bullets.push(new Bullet(width / 2 + orbitRadius * Math.cos(rotation), height / 2 + orbitRadius * Math.sin(rotation), rotation));
+            bullets.push(new Bullet(width / 2 + orbitRadius * Math.cos(rotation), height / 2 + orbitRadius * Math.sin(rotation), rotation, targetWord));
+            return true;
         }
     }
+
+    return false;
 }
 
-function setup() {
+function pause() {
+    isPaused = true;
+}
+
+function resume() {
+    isPaused = false;
+    update();
+}
+
+function start() {
     canvas.width = width;
     canvas.height = height;
 
@@ -143,11 +165,13 @@ function setup() {
         .catch(error => {
             console.log(error);
         });
-
-    window.requestAnimationFrame(draw);
 }
 
-function draw() {
+function update() {
+    if (isPaused) {
+        return;
+    }
+
     context.clearRect(0, 0, width, height);
 
     context.drawImage(background, 0, 0, width, height);
@@ -177,7 +201,7 @@ function draw() {
     drawBullets();
     drawWords();
 
-    window.requestAnimationFrame(draw);
+    window.requestAnimationFrame(update);
 }
 
-setup();
+start();

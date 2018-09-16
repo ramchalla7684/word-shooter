@@ -1,8 +1,9 @@
 class Bullet {
-    constructor(x, y, rotation) {
+    constructor(x, y, rotation, target) {
         this.x = x;
         this.y = y;
         this.rotation = rotation;
+        this.target = target;
 
         this.isDestroyed = false;
 
@@ -17,11 +18,12 @@ class Bullet {
         if (this.x < -1 || this.x > width + 1 || this.y < -1 || this.y > height + 1) {
             this.isDestroyed = true;
         }
-        else if (Math.pow(this.x - targetWord.x, 2) + Math.pow(this.y - targetWord.y, 2) < Math.pow(minDistance, 2)) {
+        else if (Math.pow(this.x - this.target.x, 2) + Math.pow(this.y - this.target.y, 2) < Math.pow(minDistance, 2)) {
             this.isDestroyed = true;
 
-            correctStrikes++;
-            targetWord.text = targetWord.text.substring(1, targetWord.length);
+            if (this.target.text === '') {
+                this.target.isDestroyed = true;
+            }
         }
     }
 
